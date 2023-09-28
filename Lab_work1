@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <string.h>
+//#include <stdlib.h>
+
+void printHelp(void) {
+    printf("Программа разработана студентом группы К3-14Б Николаевым А.А.\n");
+    printf("Цель программы - упрощение изучения Си для первокурсника \n\n");
+    printf("Список команд программы: \n");
+    printf("help -- об программе \n");
+    printf("table -- таблица размеров основных типов языка \n");
+    printf("calc -- простой калькулятор вида \"число операция число\" \n");
+    printf("calcX -- калькулятор с выводом в 16-ти ричной сис-ме \n");
+    printf("calcI -- калькулятор с подсчётом целых чисел \n");
+    printf("exit -- выход и программы \n");
+}
+void printTable(void) {
+    printf("\nТип             Размер \n\n");
+    printf("char            %lu byte\n", sizeof(char));
+    printf("short           %lu bytes\n", sizeof(short));
+    printf("int             %lu bytes\n", sizeof(int));
+    printf("float           %lu bytes\n", sizeof(float));
+    printf("bool            %lu byte\n\n", sizeof(_Bool));
+}
+float calcer(float num11, float num22, char t_oper1[2]) { //почему 10?
+    if (strcmp(t_oper1, "+") == 0) {
+        return (num11 + num22);
+    } else if (strcmp(t_oper1, "-") == 0) {
+        return (num11 - num22);
+    } else if (strcmp(t_oper1, "*") == 0) {
+        return (num11 * num22);
+    } else if (strcmp(t_oper1, ":") == 0) {
+        if (num22 != 0) {
+            return (num11 / num22);
+        } else {
+            printf("Деление на ноль! \n");
+            return 0;
+        }
+    } else {
+        printf("К сожалению, я ещё не умею работать с такой операцией\n");
+        printf("Попробуйте еще раз\n\n");
+        return 0;
+    }
+}
+void printCalc(char action1[6]) {
+    float num1 = 0;
+    float num2 = 0;
+    char t_oper[2] = "";
+    printf("Введите число 1: \n");
+    scanf("%f\n", &num1);
+    printf("Введите тип операции (+/-/*/:): \n");
+    scanf("%s\n", t_oper);
+    printf("Введите число 2: \n");
+    scanf("%f\n", &num2);
+
+    if (strcmp(action1, "calc") == 0) {
+        printf("Ответ: %f\n", calcer(num1, num2, t_oper));
+    } else if (strcmp(action1, "calcX") == 0) {
+        int answer1 = (int)calcer(num1, num2, t_oper);
+        printf("Ответ: %X\n", answer1);
+    } else if (strcmp(action1, "calcI") == 0) {
+        printf("Ответ: %d\n", (int)calcer(num1, num2, t_oper));
+    }
+}
+int main(int argc, const char ** argv) {
+    printf("Привет! Это программа реализована для лабораторной работы №1\n");
+    printf("О ф-циях ты можешь узнать, если введешь в строку комманду help\n");
+    while (1) {
+        char action[6] = "";
+        scanf("%s\n", action);
+        if (strcmp(action, "help") == 0) {
+            printHelp();
+        } else if (strcmp(action, "table") == 0) {
+            printTable();
+        } else if (strcmp(action, "calc") == 0 || strcmp(action, "calcX") == 0 || strcmp(action, "calcI") == 0) {
+            printCalc(action);
+        } else if (strcmp(action, "exit") == 0) {
+            break;
+        } else {
+            printf("К сожалению, я не знаю такой комманды, но вы можете узнать");
+            printf(" о моём функционале введя команду help \n");
+            printf("Введите exit для выхода из программы \n");
+        }
+    }
+    return 0;
+}
